@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data SPMB</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Poppins', sans-serif; }
+    .bar-animate { animation: growUp 0.8s ease-out forwards; transform-origin: bottom; }
+    @keyframes growUp { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+    .donut-animate { animation: donutSpin 1s ease-out forwards; }
+    @keyframes donutSpin { from { stroke-dashoffset: 251; } }
+    body { box-sizing: border-box; }
+    #trianglify-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    #app {
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/trianglify/4.0.1/trianglify.min.js"></script>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/telemetry_sdk.js"></script>
+ <script src="/_sdk/telemetry_sdk.js"></script></head>
+ <body class="h-full">
+  <canvas id="trianglify-bg"></canvas>
+  <div id="app" class="h-full w-full overflow-auto">
+   <div class="max-w-6xl mx-auto p-6 md:p-10">
+    <div class="mb-8">
+     <h1 id="page-title" class="text-3xl md:text-4xl font-bold mb-2" style="background: linear-gradient(135deg, #f59e0b, #ec4899, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Sistem Penerimaan Murid Baru (SPMB)</h1>
+     <p id="school-name" class="text-lg font-semibold" style="color: #6366f1;">SMKN 1 TIRTAJAYA - KAB. KARAWANG</p>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8"><!-- Bar Chart -->
+     <div class="rounded-3xl p-8 shadow-xl" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85)); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.5);">
+      <h2 id="bar-title" class="text-2xl font-bold mb-6" style="background: linear-gradient(135deg, #f59e0b, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Status Pendaftar Verifikasi</h2>
+      <div class="flex items-end justify-between gap-3 h-64 px-2">
+       <div class="flex flex-col items-center flex-1 h-full justify-end">
+        <div class="bar-animate w-full rounded-t-lg shadow-lg" style="height: 100%; background: linear-gradient(135deg, #3b82f6, #1d4ed8); animation-delay: 0s;"></div><span class="text-xs mt-3 font-semibold text-center" style="color: #1e293b;">Total Pendaftar<br>
+          (335)</span>
+       </div>
+       <div class="flex flex-col items-center flex-1 h-full justify-end">
+        <div class="bar-animate w-full rounded-t-lg shadow-lg" style="height: 60%; background: linear-gradient(135deg, #10b981, #059669); animation-delay: 0.1s;"></div><span class="text-xs mt-3 font-semibold text-center" style="color: #1e293b;">Terverifikasi<br>
+          (200)</span>
+       </div>
+       <div class="flex flex-col items-center flex-1 h-full justify-end">
+        <div class="bar-animate w-full rounded-t-lg shadow-lg" style="height: 40%; background: linear-gradient(135deg, #f59e0b, #d97706); animation-delay: 0.2s;"></div><span class="text-xs mt-3 font-semibold text-center" style="color: #1e293b;">Perlu Perbaikan<br>
+          (135)</span>
+       </div>
+      </div>
+      <div class="mt-6 flex justify-between text-xs px-2 font-semibold" style="color: #64748b;"><span>0</span><span>100</span><span>200</span><span>300</span>
+      </div>
+     </div><!-- Kuota Chart -->
+     <div class="rounded-3xl p-8 shadow-xl" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85)); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.5);">
+      <h2 id="quota-title" class="text-2xl font-bold mb-6" style="background: linear-gradient(135deg, #06b6d4, #0891b2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Data Kuota Pendaftaran</h2>
+      <div class="flex items-end justify-between gap-4 h-64 px-2">
+       <div class="flex flex-col items-center flex-1 h-full justify-end">
+        <div class="bar-animate w-full rounded-t-lg shadow-lg" style="height: 100%; background: linear-gradient(135deg, #06b6d4, #0891b2); animation-delay: 0s;"></div><span class="text-xs mt-3 font-semibold text-center" style="color: #1e293b;">Rombel<br>
+          (10)</span>
+       </div>
+       <div class="flex flex-col items-center flex-1 h-full justify-end">
+        <div class="bar-animate w-full rounded-t-lg shadow-lg" style="height: 100%; background: linear-gradient(135deg, #8b5cf6, #7c3aed); animation-delay: 0.1s;"></div><span class="text-xs mt-3 font-semibold text-center" style="color: #1e293b;">Siswa Per Rombel<br>
+          (40)</span>
+       </div>
+       <div class="flex flex-col items-center flex-1 h-full justify-end">
+        <div class="bar-animate w-full rounded-t-lg shadow-lg" style="height: 100%; background: linear-gradient(135deg, #ec4899, #db2777); animation-delay: 0.2s;"></div><span class="text-xs mt-3 font-semibold text-center" style="color: #1e293b;">Total Kuota<br>
+          (400)</span>
+       </div>
+       <div class="flex flex-col items-center flex-1 h-full justify-end">
+        <div class="bar-animate w-full rounded-t-lg shadow-lg" style="height: 83.75%; background: linear-gradient(135deg, #f59e0b, #d97706); animation-delay: 0.3s;"></div><span class="text-xs mt-3 font-semibold text-center" style="color: #1e293b;">Terdaftar<br>
+          (335)</span>
+       </div>
+      </div>
+      <div class="mt-6 flex justify-between text-xs px-2 font-semibold" style="color: #64748b;"><span>0</span><span>100</span><span>200</span><span>300</span><span>400</span>
+      </div>
+     </div>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8"><!-- Donut Chart -->
+     <div class="rounded-3xl p-8 shadow-xl" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85)); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.5);">
+      <h2 id="donut-title" class="text-2xl font-bold mb-6" style="background: linear-gradient(135deg, #8b5cf6, #6366f1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Status Pendaftar (Program Keahlian)</h2>
+      <div class="flex flex-col items-center gap-6">
+       <div class="relative">
+        <svg width="220" height="220" viewbox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#e5e7eb" stroke-width="12" /> <circle cx="50" cy="50" r="40" fill="none" stroke="#3b82f6" stroke-width="12" stroke-dasharray="60.3 251.2" stroke-dashoffset="0" transform="rotate(-90 50 50)" class="donut-animate" /> <circle cx="50" cy="50" r="40" fill="none" stroke="#ec4899" stroke-width="12" stroke-dasharray="60.9 251.2" stroke-dashoffset="-60.3" transform="rotate(-90 50 50)" class="donut-animate" /> <circle cx="50" cy="50" r="40" fill="none" stroke="#10b981" stroke-width="12" stroke-dasharray="60.9 251.2" stroke-dashoffset="-121.2" transform="rotate(-90 50 50)" class="donut-animate" /> <circle cx="50" cy="50" r="40" fill="none" stroke="#f59e0b" stroke-width="12" stroke-dasharray="60.9 251.2" stroke-dashoffset="-182.1" transform="rotate(-90 50 50)" class="donut-animate" /> <text x="50" y="48" text-anchor="middle" fill="#1e293b" font-size="8" font-weight="bold">
+          Total
+         </text> <text x="50" y="58" text-anchor="middle" fill="#64748b" font-size="6">
+          2143 Pendaftar
+         </text>
+        </svg>
+       </div>
+       <div class="w-full grid grid-cols-2 md:grid-cols-2 gap-4">
+        <div class="rounded-xl p-4 shadow-md" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05)); border: 2px solid #3b82f6;">
+         <div class="flex items-center gap-2 mb-2">
+          <div class="w-3 h-3 rounded-full flex-shrink-0" style="background: #3b82f6;"></div><span class="text-sm font-semibold" style="color: #1e293b;">Peng. Perangkat Lunak &amp; Gim (24%)</span>
+         </div>
+         <div class="text-xs font-medium" style="color: #4b5563;">
+          Daftar: 535 | Terima: 39 | Antrean: 92 | Di Luar Kuota: 11
+         </div>
+        </div>
+        <div class="rounded-xl p-4 shadow-md" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(236, 72, 153, 0.05)); border: 2px solid #ec4899;">
+         <div class="flex items-center gap-2 mb-2">
+          <div class="w-3 h-3 rounded-full flex-shrink-0" style="background: #ec4899;"></div><span class="text-sm font-semibold" style="color: #1e293b;">Teknik Jaringan Komputer (25%)</span>
+         </div>
+         <div class="text-xs font-medium" style="color: #4b5563;">
+          Daftar: 536 | Terima: 58 | Antrean: 144 | Di Luar Kuota: 8
+         </div>
+        </div>
+        <div class="rounded-xl p-4 shadow-md" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05)); border: 2px solid #10b981;">
+         <div class="flex items-center gap-2 mb-2">
+          <div class="w-3 h-3 rounded-full flex-shrink-0" style="background: #10b981;"></div><span class="text-sm font-semibold" style="color: #1e293b;">Teknik Mesin (25%)</span>
+         </div>
+         <div class="text-xs font-medium" style="color: #4b5563;">
+          Daftar: 536 | Terima: 37 | Antrean: 75 | Di Luar Kuota: 6
+         </div>
+        </div>
+        <div class="rounded-xl p-4 shadow-md" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05)); border: 2px solid #f59e0b;">
+         <div class="flex items-center gap-2 mb-2">
+          <div class="w-3 h-3 rounded-full flex-shrink-0" style="background: #f59e0b;"></div><span class="text-sm font-semibold" style="color: #1e293b;">Teknik Otomotif (25%)</span>
+         </div>
+         <div class="text-xs font-medium" style="color: #4b5563;">
+          Daftar: 536 | Terima: 74 | Antrean: 79 | Di Luar Kuota: 7
+         </div>
+        </div>
+       </div>
+      </div>
+     </div><!-- Klasemen Chart -->
+     <div class="rounded-3xl p-8 shadow-xl" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85)); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.5);">
+      <h2 id="klasemen-title" class="text-2xl font-bold mb-6" style="background: linear-gradient(135deg, #06b6d4, #0891b2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Klasemen Sementara</h2>
+      <div class="flex flex-col items-center gap-6">
+       <div class="relative">
+        <svg width="220" height="220" viewbox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#e5e7eb" stroke-width="12" /> <circle cx="50" cy="50" r="40" fill="none" stroke="#10b981" stroke-width="12" stroke-dasharray="49.2 251.2" stroke-dashoffset="0" transform="rotate(-90 50 50)" class="donut-animate" /> <circle cx="50" cy="50" r="40" fill="none" stroke="#f59e0b" stroke-width="12" stroke-dasharray="90.9 251.2" stroke-dashoffset="-49.2" transform="rotate(-90 50 50)" class="donut-animate" /> <circle cx="50" cy="50" r="40" fill="none" stroke="#06b6d4" stroke-width="12" stroke-dasharray="8.7 251.2" stroke-dashoffset="-140.1" transform="rotate(-90 50 50)" class="donut-animate" /> <text x="50" y="48" text-anchor="middle" fill="#1e293b" font-size="8" font-weight="bold">
+          Total
+         </text> <text x="50" y="58" text-anchor="middle" fill="#64748b" font-size="6">
+          532 Pendaftar
+         </text>
+        </svg>
+       </div>
+       <div class="w-full grid grid-cols-2 md:grid-cols-2 gap-4">
+        <div class="rounded-xl p-4 shadow-md" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05)); border: 2px solid #10b981;">
+         <div class="flex items-center gap-2 mb-2">
+          <div class="w-3 h-3 rounded-full flex-shrink-0" style="background: #10b981;"></div><span class="text-sm font-semibold" style="color: #1e293b;">Masuk Kuota (39%)</span>
+         </div>
+         <div class="text-xs font-medium" style="color: #4b5563;">
+          Jumlah: 209
+         </div>
+        </div>
+        <div class="rounded-xl p-4 shadow-md" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05)); border: 2px solid #f59e0b;">
+         <div class="flex items-center gap-2 mb-2">
+          <div class="w-3 h-3 rounded-full flex-shrink-0" style="background: #f59e0b;"></div><span class="text-sm font-semibold" style="color: #1e293b;">Antrean (72%)</span>
+         </div>
+         <div class="text-xs font-medium" style="color: #4b5563;">
+          Jumlah: 384
+         </div>
+        </div>
+        <div class="rounded-xl p-4 shadow-md" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(6, 182, 212, 0.05)); border: 2px solid #06b6d4;">
+         <div class="flex items-center gap-2 mb-2">
+          <div class="w-3 h-3 rounded-full flex-shrink-0" style="background: #06b6d4;"></div><span class="text-sm font-semibold" style="color: #1e293b;">Di Luar Kuota (7%)</span>
+         </div>
+         <div class="text-xs font-medium" style="color: #4b5563;">
+          Jumlah: 37
+         </div>
+        </div>
+        <div class="rounded-xl p-4 shadow-md" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05)); border: 2px solid #8b5cf6;">
+         <div class="flex items-center gap-2 mb-2">
+          <div class="w-3 h-3 rounded-full flex-shrink-0" style="background: #8b5cf6;"></div><span class="text-sm font-semibold" style="color: #1e293b;">Total Kuota</span>
+         </div>
+         <div class="text-xs font-medium" style="color: #4b5563;">
+          Jumlah: 400
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    // Generate Trianglify background
+    const canvas = document.getElementById('trianglify-bg');
+    const pattern = Trianglify({
+      width: window.innerWidth,
+      height: window.innerHeight,
+      cellSize: 80,
+      variance: 0.7,
+      seed: 'spmb',
+      strokeWidth: 0.5,
+      fillOpacity: 0.9,
+      colors: ['#FFD700', '#FF6B9D', '#00D4FF', '#FFA500', '#C233FF', '#00FF88', '#FF4444', '#FFE66D']
+    });
+    pattern.toCanvas(canvas);
+
+    // Redraw on window resize
+    window.addEventListener('resize', () => {
+      const pattern = Trianglify({
+        width: window.innerWidth,
+        height: window.innerHeight,
+        cellSize: 80,
+        variance: 0.7,
+        seed: 'spmb',
+        strokeWidth: 0.5,
+        fillOpacity: 0.9,
+        colors: ['#FFD700', '#FF6B9D', '#00D4FF', '#FFA500', '#C233FF', '#00FF88', '#FF4444', '#FFE66D']
+      });
+      pattern.toCanvas(canvas);
+    });
+
+    const defaultConfig = {
+      page_title: 'Sistem Penerimaan Murid Baru (SPMB)',
+      school_name: 'SMKN 1 TIRTAJAYA - KAB. KARAWANG',
+      bar_chart_title: 'Status Pendaftar Verifikasi',
+      donut_chart_title: 'Status Pendaftar (Program Keahlian)'
+    };
+
+    window.elementSdk.init({
+      defaultConfig,
+      onConfigChange: async (config) => {
+        const c = { ...defaultConfig, ...config };
+        document.getElementById('page-title').textContent = c.page_title;
+        document.getElementById('school-name').textContent = c.school_name;
+        document.getElementById('bar-title').textContent = c.bar_chart_title;
+        document.getElementById('donut-title').textContent = c.donut_chart_title;
+      },
+      mapToCapabilities: (config) => {
+        return {
+          recolorables: [],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        };
+      },
+      mapToEditPanelValues: (config) => {
+        const c = { ...defaultConfig, ...config };
+        return new Map([
+          ['page_title', c.page_title],
+          ['school_name', c.school_name],
+          ['bar_chart_title', c.bar_chart_title],
+          ['donut_chart_title', c.donut_chart_title]
+        ]);
+      }
+    });
+
+    lucide.createIcons();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a076d42199db81d1',t:'MTc4MDc0MjczOA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
